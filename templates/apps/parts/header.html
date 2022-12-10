@@ -1,0 +1,53 @@
+{% load static %}
+<header class="theme-default">
+    <div id="search-box">
+        <div class="container">
+            <form action="/" method="POST">
+                <input type="text" placeholder="Searching for news" name="search"/>
+                <button><i class="fas fa-arrow-right"></i></button>
+            </form>
+        </div>
+    </div>
+    <div class="container">
+        <div class="header-wrapper">
+            <a class="header__logo" href="{% url 'index_page' %}"><img src="{% static 'apps/assets/images/logo1.png' %}"
+                                                                       alt="Logo"/></a>
+            <nav>
+                <ul>
+
+                    <li class="nav-item {% if  request.path == '/' %} active {% endif %}"><a
+                            href="{% url 'index_page' %}">Home</a></li>
+
+
+                    <li class="nav-item {% if request.path == '/blog-category/' %} active {% endif %}"><a
+                            href="{% url 'blog_category_page' %}?category={{ categories.slug }}">Blog</a></li>
+
+
+                    <li class="nav-item {% if request.path == '/about/' %} active {% endif %}"><a
+                            href="{% url 'about_page' %}">About</a></li>
+
+
+                    <li class="nav-item {% if request.path == '/contact/' %} active {% endif %}"><a
+                            href="{% url 'contact_page' %}">Contact</a></li>
+                </ul>
+            </nav>
+            <!-- Social Icons -->
+            <div class="header__icon-group"><a href="#" id="search"><i class="fas fa-search"></i></a>
+                <div class="social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-dribbble"></i></a>
+                    <a id="mobile-menu-controller" href="#"><i class="fas fa-bars"></i></a>
+                </div>
+            </div>
+            {% if user.is_anonymous %}
+                <a class="btn btn-outline-primary" href="{% url 'register_view' %}">Sign up</a>
+                <a class="btn btn-outline-primary" href="{% url 'login' %}">Log in</a>
+            {% else %}
+                <a class="btn btn-outline-primary" href="{% url 'user_view' %}">{{ user.username }}</a>
+                <a class=" btn btn-outline-primary" href="{% url 'logout' %}">Logout</a>
+            {% endif %}
+        </div>
+    </div>
+</header>

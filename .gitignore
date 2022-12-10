@@ -104,7 +104,6 @@ eggs/
 .eggs/
 lib/
 lib64/
-parts/
 sdist/
 var/
 wheels/
@@ -155,7 +154,7 @@ instance/
 
 # Scrapy stuff:
 .scrapy
-
+.idea/
 # Sphinx documentation
 docs/_build/
 
