@@ -1,0 +1,103 @@
+{% extends 'apps/parts/base.html' %}
+{% load static %}
+{% block title %}
+    Post
+{% endblock %}
+{% block main_content %}
+    <div id="content">
+        <div class="post">
+            <div class="container">
+                <div class="post-standard">
+                    <div class="post-standard__banner">
+                        <div class="post-standard__banner__image">
+                            <img src="{{ post.image.url }}"
+                                 alt="Post banner image"/>
+                        </div>
+                        <div class="post-standard__banner__content">
+                            <div class="post-card -center">
+                                <div></div>
+                                <div class="card__content">
+                                    <h5 class="card__content-category">{{ post.category.first.name }}</h5>
+                                    <a class="card__content-title" href="#">{{ post.title }}</a>
+                                    <div class="card__content-info">
+                                        <div class="info__time"><i class="far fa-clock"></i>
+                                            <p>
+                                                {{ post.created_at|time:"h:i  a" }}{{ post.created_at|date:" M  d  ,Y" }}</p>
+                                        </div>
+                                        <div class="info__comment"><i class="far fa-comment"></i>
+                                            <p>{{ post.comment_count }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-8 mx-auto">
+                            <div class="post-standard__content">
+                                <!-- Post share icons -->
+                                <!-- content Starts here -->
+                                {{ post.content|safe }}
+                                <!-- Post footer -->
+                                <div class="post-footer">
+                                    <div class="post-footer__tags center">
+                                        <div class="tags-group">
+
+                                            {% for category in categories %}
+                                                <a class="tag-btn"
+                                                   href="{% url 'blog_category_page' %}?category={{ category.slug }}">
+                                                    {{ category.name }}
+                                                </a>
+                                            {% endfor %}
+
+                                        </div>
+                                    </div>
+                                    <div class="post-footer__author">
+                                        <div class="author__avatar">
+                                            <!-- img size 150 x 150 -->
+                                            <img src="{{ post.author.image.url }}"
+                                                 alt="Author avatar"/>
+                                        </div>
+                                        <!-- Author Info -->
+                                        <div class="author__info">
+                                            <h5>{{ author.first_name }}</h5>
+                                            <p>{{ author.about }}</p>
+                                            <!-- social Media -->
+                                            <div class="social-media">
+                                                <a href="{{ post.author.facebook_url }}">
+                                                    <i class="fab fa-facebook-f"></i>
+                                                </a>
+                                                <a href="{{ post.author.twitter_url }}">
+                                                    <i class="fab fa-twitter"></i>
+                                                </a>
+                                                <a href="{{ post.author.instagram_url }}">
+                                                    <i class="fab fa-instagram"></i>
+                                                </a>
+                                                <a href="{{ post.author.dribbble_url }}">
+                                                    <i class="fab fa-dribbble"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form action="{% url 'post_preview_page' post.slug %}" method="post" name="status_action">
+        {% csrf_token %}
+        <div class="center">
+            <input class="btn -normal" href="" type="submit" value="active" name="status">
+            <input class="btn -normal" type="submit" value="cancel" name="status">
+        </div>
+        <div class="center">
+            <input class="btn -normal" type="submit" value="Make PDF" name="_make_pdf">
+        </div>
+    </form>
+
+{% endblock %}
+<h3>Bunday Post mavjud emas</h3>
+
