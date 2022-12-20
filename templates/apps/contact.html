@@ -20,39 +20,42 @@
                     <div class="col-12 col-md-6">
                         <div class="contact-us__info">
                             <h3 class="contact-title">GET IN TOUCH</h3>
-                            <p class="contact-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                                do
-                                eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse
-                                ultrices
-                                gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis. </p>
+                            <p class="contact-description">{{ info.about }} </p>
                             <div class="contact-method">
                                 <div class="contact-method__item"><i class="fas fa-map-marker-alt"></i>
-                                    <p>Dar es saalam, Tanzania</p>
+                                    <p>{{ info.address }}</p>
                                 </div>
                                 <div class="contact-method__item"><i class="fas fa-mobile-alt"></i>
-                                    <p>+255 123456789 | +255 123546977</p>
+                                    <p>{{ info.phone }}</p>
                                 </div>
                                 <div class="contact-method__item"><i class="far fa-envelope-open"></i></i>
-                                    <p>hello@fuse.com</p>
+                                    <p>{{ info.email }}</p>
                                 </div>
                             </div>
                         </div>
                         <div class="contact-us__social">
                             <h3 class="contact-title">GET IN TOUCH</h3>
-                            <div class="social-block"><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i
-                                    class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a
-                                    href="#"><i class="fab fa-dribbble"></i></a></div>
+                            <div class="social-block">
+                                <a href="{{ info.facebook_url }}"><i
+                                        class="fab fa-facebook-f"></i></a>
+                                <a href="{{ info.twitter_url }}"><i
+                                        class="fab fa-twitter"></i></a>
+                                <a href="{{ info.instagram_url }}"><i
+                                        class="fab fa-instagram"></i></a>
+                                <a href="{{ info.dribbble_url }}"><i
+                                        class="fab fa-dribbble"></i></a>
+                            </div>
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
                         <div class="contact-us__form">
                             <h3 class="contact-title">LEAVE A MESSAGE</h3>
-                            <form action="/">
-                                <input type="text" placeholder="Name" name="name"/>
-                                <input type="email" placeholder="Email" name="email"/>
-                                <input type="text" placeholder="Website" name="website"/>
-                                <textarea name="message" cols="30" rows="8" placeholder="Message"></textarea>
-                                <button class="btn -normal">Send message</button>
+                            <form action="{% url 'contact_page' %}" method="post">
+                                {% csrf_token %}
+                                <input type="text" placeholder="Title" name="title"/>
+                                <input type="text" placeholder="Email" name="email"/>
+                                <textarea name="text" cols="30" rows="8" placeholder="Message"></textarea>
+                                <button class="btn -normal" type="submit">Send message</button>
                             </form>
                         </div>
                     </div>
@@ -70,6 +73,7 @@
                     </div>
                     <div class="col-12 col-md-6">
                         <form class="subcribe-bar__form" action="/">
+                            {% csrf_token %}
                             <input type="text" placeholder="You email"/>
                             <button class="btn -normal">Subcribe</button>
                         </form>

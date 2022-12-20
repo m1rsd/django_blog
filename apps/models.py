@@ -2,7 +2,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models import CharField, SlugField, ForeignKey, SET_NULL, ManyToManyField, DateField, CASCADE, \
-    DateTimeField, IntegerField, TextField, URLField, TextChoices
+    DateTimeField, IntegerField, TextField, URLField, TextChoices, EmailField, BooleanField
 from django.utils.html import format_html
 from django.utils.text import slugify
 from django_resized import ResizedImageField
@@ -19,7 +19,6 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = "Kategoriyalar"
         verbose_name = 'Kategoriya'
-
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -66,7 +65,7 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-    def submit_buttons(self ,):  # NOQA
+    def submit_buttons(self, ):  # NOQA
         if self.status == Post.StatusChoise.PENDING:
             return format_html(f'''
             <a href="active/{self.id}" class="button" >Active</a>
@@ -97,6 +96,11 @@ class Post(models.Model):
         super().save(*args, **kwargs)
 
 
+class PostViews(models.Model):
+    post = ForeignKey(Post, CASCADE)
+    watched_time = DateTimeField(auto_now_add=True)
+
+
 class Comment(models.Model):
     text = TextField()
     author = ForeignKey('apps.User', SET_NULL, null=True, blank=True)
@@ -123,3 +127,28 @@ class User(AbstractUser):
     twitter_url = URLField(null=True, blank=True)
     instagram_url = URLField(null=True, blank=True)
     dribbble_url = URLField(null=True, blank=True)
+    is_active = BooleanField(default=False, verbose_name='active')
+    email = EmailField(unique=True, blank=True, max_length=254, verbose_name='email address')
+
+
+class ContactInfo(models.Model):
+    about = TextField()
+    address = CharField(max_length=255)
+    phone = CharField(max_length=255)
+    email = EmailField()
+    facebook_url = URLField(null=True, blank=True)
+    twitter_url = URLField(null=True, blank=True)
+    instagram_url = URLField(null=True, blank=True)
+    dribbble_url = URLField(null=True, blank=True)
+
+
+class ContactMessage(models.Model):
+    title = CharField(max_length=255)
+    text = TextField()
+    email = EmailField()
+    author = ForeignKey('apps.User', SET_NULL, null=True, blank=True)
+    created_at = DateTimeField(auto_now_add=True)
+    is_answered = BooleanField(default=False, verbose_name='Is Answered')
+
+    def __str__(self):
+        return self.title

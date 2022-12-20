@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os.path
 from pathlib import Path
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +25,7 @@ SECRET_KEY = 'django-insecure-p86(yn!b7*5$7ana%gxpdbttx!+p#2--cc74!2iufvtxexf)(%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -35,11 +36,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    # my apps
     'apps.apps.AppsConfig',
+    # downland apps
     'ckeditor',
     # 'ckeditor_uploader',
-    'fontawesomefree'
+    'fontawesomefree',
+    'crispy_forms',
+    'django_crontab',
 
 ]
 
@@ -197,3 +201,28 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DJANGORESIZED_DEFAULT_KEEP_META = True
 DJANGORESIZED_DEFAULT_FORCE_FORMAT = 'JPEG'
 DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {'JPEG': ".jpg", 'PNG': '.png'}
+
+env = environ.Env()
+environ.Env.read_env()
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'mirsaidavazbekov@gmail.com'
+EMAIL_HOST_PASSWORD = 'zirvrdrkhedzgfkk'
+
+# Custom setting. To email
+RECIPIENT_ADDRESS = 'mirsaidavazbekov77@gmail.com'
+
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Kolkata'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+CRONJOBS = [
+    ('59 23 * * 6', 'apps/utils/view_count_reseter')
+]

@@ -9,16 +9,18 @@
     <script src="{% static 'apps/user/css/bootstrap.min.css' %}"></script>
     <script src="{% static 'apps/user/js/jquery-1.11.1.min.js' %}"></script>
     <!------ Include the above in your HEAD tag ---------->
-<div>asd</div>
-<div>asd</div>
-<div>asd</div>
-<div>asd</div>
+    <div>asd</div>
+    <div>asd</div>
+    <div>asd</div>
+    <div>asd</div>
     <div class="container">
         <div class="row">
             <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
-                <A href="edit.html">Edit Profile</A>
+                {% if request.user == user %}
+                    <A href="{% url 'user_update_view' request.user.id %}">Edit Profile</A>
 
-                <A href="edit.html">Logout</A>
+                    <A href="{% url 'logout' %}">Logout</A>
+                {% endif %}
                 <br> {# May 05,2014,03:00 pm  #}
                 <p class=" text-info">{{ user.date_joined|date:"M  d, Y ," }}{{ user.date_joined|time:"h:i  a" }}</p>
             </div>
@@ -42,7 +44,7 @@
                                     </tr>
                                     <tr>
                                         <td>Hire date:</td>
-                                        <td>06/23/2013</td>
+                                        <td>{{ user.date_joined }}</td>
                                     </tr>
                                     <tr>
                                         <td>Date of Birth</td>
@@ -70,20 +72,30 @@
 
                                     </tbody>
                                 </table>
-
-                                <a href="{% url 'create_post' %}" class="btn btn-primary">My Posts</a>
+                                {% if request.user == user %}
+                                    <div>
+                                        <a href="{% url 'create_post' %}" class="btn btn-primary">Create Post</a>
+                                    </div>
+                                    <div>
+                                        <a href="{% url 'change_password' %}" class="btn btn-primary">Change Password</a>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
                     <div class="panel-footer">
                         <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button"
                            class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>
-                        <span class="pull-right">
-                            <a href="edit.html" data-original-title="Edit this user" data-toggle="tooltip" type="button"
-                               class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
+                        {% if request.user == user %}
+                            <span class="pull-right">
+                            <a data-original-title="Edit this user" data-toggle="tooltip" type="button"
+                               class="btn btn-sm btn-warning" href="{% url 'user_update_view' user.id %}"><i
+                                    class="glyphicon glyphicon-edit"></i>Update</a>
                             <a data-original-title="Remove this user" data-toggle="tooltip" type="button"
-                               class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+                               class="btn btn-sm btn-danger" href="{% url 'user_delete_view' user.id %}"><i
+                                    class="glyphicon glyphicon-remove"></i>Delete</a>
                         </span>
+                        {% endif %}
                     </div>
 
                 </div>

@@ -1,0 +1,83 @@
+{% load crispy_forms_tags %}
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>Update</title>
+
+</head>
+<body>
+<div class="main">
+    <selection class="form">
+        <div class="container">
+            <h2 class="form-title">Update</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group col-md-6 mb-0">
+                        {{ form.email|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-6 mb-0">
+                        {{ form.username|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <a href="{% url 'change_password' %}" class="btn btn-primary">Change password</a>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6 mb-0">
+                        {{ form.first_name|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-6 mb-0">
+                        {{ form.last_name|as_crispy_field }}
+                    </div>
+                </div>
+                {{ form.address|as_crispy_field }}
+                <div class="form-row">
+                    <div class="form-group col-md-6 mb-0">
+                        {{ form.phone|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4 mb-0">
+                        {{ form.gender|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-2 mb-0">
+                        {{ form.birthday|as_crispy_field }}
+                    </div>
+                </div>
+                {{ form.about|as_crispy_field }}
+                {{ form.workspace|as_crispy_field }}
+                <div class="form-row">
+                    <div class="form-group col-md-6 mb-0">
+                        {{ form.instagram_url|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4 mb-0">
+                        {{ form.facebook_url|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4 mb-0">
+                        {{ form.twitter_url|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-2 mb-0">
+                        {{ form.dribbble_url|as_crispy_field }}
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a type="button" class="btn btn-sm btn-danger" href="{% url 'user_view' form.username %}">Cancel</a>
+            </form>
+        </div>
+    </selection>
+</div>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+<script src="{% static 'apps/js/beacon.js' %}"></script>
+<script src="{% static 'apps/js/awsome_phone.js' %}"></script>
+</body>
+</html>
+
+

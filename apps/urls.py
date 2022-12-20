@@ -1,7 +1,10 @@
-from django.urls import path
+from builtins import next
 
-from apps.views import IndexView, BlogCategoryListView, ContactView, AboutView, PostDetailView, CustomLoginView, \
-    CustomLogoutView, RegisterView, UserView, PostUpdate, CreatePostView
+from django.urls import path
+from apps.view.user_views import CustomLogoutView, RegisterView, UserTemplateView, CustomLoginView, UserUpdateView, \
+    UserDeleteView, UserActiveProfileView, UserChangePasswordView, ForgotPasswordFormView, ResetPasswordView
+from apps.view.views import IndexView, BlogCategoryListView, ContactView, AboutView, GeneratePdf
+from apps.view.post_views import PostDetailView, PostUpdate, CreatePostView
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index_page'),
@@ -11,10 +14,17 @@ urlpatterns = [
     path('contact/', ContactView.as_view(), name='contact_page'),
     path('about/', AboutView.as_view(), name='about_page'),
     path('create-post/', CreatePostView.as_view(), name='create_post'),
+    path('pdf/<str:slug>', GeneratePdf.as_view(), name='make_pdf'),
 
     path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', CustomLogoutView.as_view(), name='logout'),
     path('register/', RegisterView.as_view(), name='register_view'),
-    path('user/', UserView.as_view(), name='user_view')
+    path('channge_password/', UserChangePasswordView.as_view(), name='change_password'),
+    path('forgot_password/', ForgotPasswordFormView.as_view(), name='forgot_password'),
+    path('reset/<str:uid>/<str:token>', ResetPasswordView.as_view(), name='reset_password'),
+    path('activate/<str:uid>/<str:token>', UserActiveProfileView.as_view(), name='confirm_email'),
+    path('user/<str:username>', UserTemplateView.as_view(), name='user_view'),
+    path('update/user/<int:pk>', UserUpdateView.as_view(), name='user_update_view'),
+    path('delete/user/<int:pk>', UserDeleteView.as_view(), name='user_delete_view'),
 
 ]

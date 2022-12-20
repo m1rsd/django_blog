@@ -1,0 +1,12 @@
+{% extends 'admin/change_form.html' %}
+
+{% block submit_buttons_bottom %}
+    <div class="submit-row">
+        {% if not original.is_answered %}
+            <input type="submit" value="Send message" name="send_message">
+        {% else %}
+            <h3 style="color: #00a905">Answered</h3>
+        {% endif %}
+    </div>
+    {{ block.super }}
+{% endblock %}

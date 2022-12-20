@@ -184,7 +184,7 @@
             </div>
         </div>
     </div>
-    <form action="{% url 'post_page' post.slug %}" method="post" name="status_action">
+    <form action="{% url 'make_pdf' post.slug %}" method="get" name="status_action">
         {% csrf_token %}
         <div class="center">
             <input class="btn -normal" type="submit" value="Make PDF" name="_make_pdf">

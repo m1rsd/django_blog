@@ -1,0 +1,10 @@
+<div class="container">
+
+    <form method="post">{% csrf_token %}
+        <p>Are you sure you want to delete "{{ object }}"?</p>
+        {{ form }}
+        <input type="submit" value="Confirm">
+        <a data-original-title="Remove this user" data-toggle="tooltip" type="button"
+           class="btn btn-sm btn-danger" href="{% url 'user_view' request.user.username %}"><i
+                class="glyphicon glyphicon-remove"></i>Cancel</a></form>
+</div>

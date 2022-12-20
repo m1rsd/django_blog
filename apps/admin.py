@@ -4,7 +4,8 @@ from django.shortcuts import redirect
 from django.urls import reverse, path
 from django.utils.html import format_html
 
-from apps.models import Category, Post, Comment
+from apps.models import Category, Post, Comment, ContactMessage
+from apps.task.tasks import send_email_celery
 
 
 @admin.register(Category)
@@ -18,14 +19,17 @@ class OriginAdmin(admin.ModelAdmin):
 
 @admin.register(Post)
 class OriginAdmin(admin.ModelAdmin):
-    list_display = ('id', 'categories_list', 'title', 'is_active', 'category_image', 'submit_buttons')
+    list_display = ('id', 'title', 'categories_list', 'is_active', 'category_image', 'submit_buttons')
+    list_display_links = ('id', 'title')
     exclude = ('slug', 'views')
+    readonly_fields = ('status',)
     search_fields = ['category__name']
     change_form_template = "admin/custom/change_form.html"
+    list_per_page = 10
 
     def is_active(self, obj: Post):  # NOQA
         data = {
-            'pending': '<i class="fa-solid fa-hourglass-start" style="color: grey; font-size: 1em;margin-top: 8px; margin: auto;"></i>',
+            'pending': '<i class="fas fa-spinner fa-spin" style="color: grey; font-size: 1em;margin-top: 8px; margin: auto;"></i>',
             # noqa
             'active': '<i class="fa-solid fa-check" style="color: green; font-size: 1em;margin-top: 8px; margin: auto;"></i>',
             # noqa
@@ -58,9 +62,9 @@ class OriginAdmin(admin.ModelAdmin):
             self.message_user(request, "Post was deactivated")
             return HttpResponseRedirect("../")
         if "_make_pdf" in request.POST:
-            pass
+            return redirect('make_pdf', obj.slug)
         elif "_post_view" in request.POST:
-            return redirect(f'post_preview_page', obj.slug)
+            return redirect('post_preview_page', obj.slug)
         return super().response_change(request, obj)
 
     def active(self, request, id):
@@ -86,3 +90,22 @@ class OriginAdmin(admin.ModelAdmin):
 class OriginAdmin(admin.ModelAdmin):
     list_display = ('author', 'post', 'text')
     exclude = ('slug',)
+
+
+@admin.register(ContactMessage)
+class OriginAdmin(admin.ModelAdmin):
+    list_display = ('title', 'author', 'is_answered')
+    readonly_fields = ('title', 'text', 'created_at', 'email')
+    list_filter = ('is_answered',)
+    exclude = ('is_answered',)
+
+    change_form_template = "admin/comment/change_form.html"
+
+    def response_change(self, request, obj):
+        if "send_message" in request.POST:
+            mail = ContactMessage.objects.get(id=obj.id)
+            # send_email_celery(mail.author.username, mail.email)
+            obj.is_answered = True
+            obj.save()
+            send_email_celery.apply_async(args=(mail.author.username, mail.email), countdown=5)
+        return super().response_change(request, obj)

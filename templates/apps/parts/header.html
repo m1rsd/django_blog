@@ -45,7 +45,7 @@
                 <a class="btn btn-outline-primary" href="{% url 'register_view' %}">Sign up</a>
                 <a class="btn btn-outline-primary" href="{% url 'login' %}">Log in</a>
             {% else %}
-                <a class="btn btn-outline-primary" href="{% url 'user_view' %}">{{ user.username }}</a>
+                <a class="btn btn-outline-primary" href="{% url 'user_view' request.user.username %}">{{ request.user.username }}</a>
                 <a class=" btn btn-outline-primary" href="{% url 'logout' %}">Logout</a>
             {% endif %}
         </div>
