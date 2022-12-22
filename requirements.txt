@@ -25,6 +25,7 @@ django-resized==1.0.2
 environ==1.0
 fontawesomefree==6.2.1
 future==0.18.2
+gunicorn==20.1.0
 html5lib==1.1
 idna==3.4
 kombu==5.2.4
