@@ -1,7 +1,8 @@
 from datetime import date
 
+from django.contrib.sites.shortcuts import get_current_site
 from django.db.models import Count
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -12,25 +13,36 @@ from apps.models import Category, Post, ContactInfo, ContactMessage
 from apps.utils.make_pdf import render_to_pdf  # created in step 4
 
 
+class SearchView(View):
+    def post(self, request, *args, **kwargs):
+        like = request.POST.get('like')
+        data = {
+            'posts': list(Post.objects.filter(title__icontains=like).values('title', 'pic', 'slug')),
+            'domain': get_current_site(request)
+        }
+        return JsonResponse(data)
+
+
 class IndexView(ListView):
-    queryset = Post.objects.filter(status='active').order_by('-created_at')
+    queryset = Post.active.all()
     context_object_name = 'posts__category'
     template_name = 'apps/index.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=object_list, **kwargs)
-        context['posts'] = Post.objects.filter(status='active').order_by('-created_at')[1:]
+        context['posts'] = Post.active.all()[1:]
         context['categories'] = Category.objects.all().annotate(article_count=
                                                                 Count('post_set')).order_by('-article_count')[:4]
-        context['treading_post'] = Post.objects.filter(status='active').order_by('-views')[:5]
+        context['treading_post'] = Post.active.order_by('-views')[:5]
         return context
 
 
 class BlogCategoryListView(ListView):
-    queryset = Post.objects.filter(status='active')
+    queryset = Post.active.all()
     template_name = 'apps/blog-category.html'
     paginate_by = 4
-    context_object_name = 'posts'
+
+    # context_object_name = 'posts'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=object_list, **kwargs)
@@ -38,7 +50,7 @@ class BlogCategoryListView(ListView):
         context['categories'] = Category.objects.all()
         context['posts'] = self.get_queryset()
         context['category'] = Category.objects.filter(slug=slug).first()
-        context['treading_post'] = Post.objects.filter(status='active').order_by('-views')[:5]
+        context['treading_post'] = Post.active.order_by('-views')[:5]
 
         return context
 

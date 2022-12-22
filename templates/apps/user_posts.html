@@ -1,0 +1,58 @@
+{% extends 'apps/parts/base.html' %}
+{% load static %}
+
+{% block title %}
+    {{ user }} posts
+{% endblock %}
+
+{% block main_content %}
+    <div id="content">
+        <div class="container">
+            <div class="blog-with-sidebar">
+                <div class="row">
+                    <div class="news-block__content -default">
+                        <div class="news-block__content__slide">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="row">
+                                        {% for post in posts %}
+                                                <div class="col-12 col-sm-6">
+                                                    <div class="post-card -small">
+                                                        <a class="card__cover"
+                                                           href="{% url 'post_page' post.slug %}">
+                                                            <!-- img size 370 x 247 -->
+                                                            <img src="{{ post.image.url }}"
+                                                                 alt="{{ post.title }}"/></a>
+                                                        <!-- Post content -->
+                                                        <div class="card__content">
+                                                            <h5 class="card__content-category">{{ post.category.first.name }}</h5>
+                                                            <a class="card__content-title"
+                                                               href="{% url 'post_page' post.slug %}">{{ post.title }}</a>
+                                                            <div class="card__content-info">
+                                                                <div class="info__time"><i
+                                                                        class="far fa-clock"></i>
+                                                                    <p>
+                                                                        {{ posts.created_at|time:"H:i" }}{{ post.created_at|date:" M d,Y" }}</p>
+                                                                </div>
+                                                                <div class="info__comment"><i
+                                                                        class="far fa-comment"></i>
+                                                                    <p>{{ post.comment_count }}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="info">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -52,7 +52,7 @@
                                         </div>
                                         <div class="trending-post_content">
                                             <!-- Category Header -->
-                                            <h5>{{ post.title }}</h5>
+                                            <h5>{{ post.category.first.name }}</h5>
                                             <a class="card__content-title" href="{% url 'post_page'  post.slug %}"
                                                tabindex="0">{{ post.title }}</a>
                                             <div class="info__time"><i class="far fa-clock"></i>
@@ -89,7 +89,7 @@
                                         <a class="card__cover" href="{% url 'post_page' post.slug %}" tabindex="0">
                                             <img src="{{ post.image.url }}" alt=""></a>
                                         <div class="card__content">
-                                            <h5 class="card__content-category">{{ categories.first.name }}</h5>
+                                            <h5 class="card__content-category">{{ category.name }}</h5>
                                             <a class="card__content-title" href="{% url 'post_page' post.slug %}"
                                                tabindex="0">{{ post.title }}</a>
                                             <div class="card__content-info">

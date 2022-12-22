@@ -1,3 +1,4 @@
+from django.db.models import Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
@@ -15,7 +16,7 @@ class PostDetailView(DetailView, FormView):
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
-        obj.views = obj.views + 1
+        obj.views = (PostViews.objects.filter(post=obj.id).annotate(dcount=Count('post'))).count()
         obj.save()
         PostViews.objects.create(post=obj)
         return obj

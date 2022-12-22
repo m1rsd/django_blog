@@ -2,7 +2,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models import CharField, SlugField, ForeignKey, SET_NULL, ManyToManyField, DateField, CASCADE, \
-    DateTimeField, IntegerField, TextField, URLField, TextChoices, EmailField, BooleanField
+    DateTimeField, IntegerField, TextField, URLField, TextChoices, EmailField, BooleanField, Manager
 from django.utils.html import format_html
 from django.utils.text import slugify
 from django_resized import ResizedImageField
@@ -42,6 +42,11 @@ class Category(models.Model):
         return self.post_set.filter(status='active').count()
 
 
+class ActivePostsManager(Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(status=Post.StatusChoise.ACTIVE)
+
+
 class Post(models.Model):
     class StatusChoise(TextChoices):
         PENDING = 'pending', 'Kutilmoqda'
@@ -58,9 +63,13 @@ class Post(models.Model):
     views = IntegerField(default=0)
     created_at = DateTimeField(auto_now_add=True)
 
+    objects = Manager()
+    active = ActivePostsManager()
+
     class Meta:
         verbose_name_plural = "Postlar"
         verbose_name = 'Post'
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.title

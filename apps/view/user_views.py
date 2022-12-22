@@ -9,10 +9,10 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
-from django.views.generic import TemplateView, CreateView, UpdateView, DeleteView, FormView
+from django.views.generic import TemplateView, CreateView, UpdateView, DeleteView, FormView, ListView
 
 from apps.forms import LoginForm, RegisterForm, UserPasswordChangeForm, ForgotPasswordForm, ResetPasswordForm
-from apps.models import User
+from apps.models import User, Post
 from apps.task.tasks import send_email
 from apps.utils.token import account_activation_token
 
@@ -52,7 +52,27 @@ class CustomLoginView(LoginView):
     next_page = reverse_lazy('index_page')
 
 
-class UserTemplateView(TemplateView):  # NOQA
+class UserPostListView(ListView):
+    template_name = 'apps/user_posts.html'
+    queryset = Post.objects.all()
+
+    def get_user(self):
+        return User.objects.filter(username=self.kwargs.get('username')).first()
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if user := self.get_user():
+            return qs.filter(author=user)
+        return qs
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        context['user'] = self.get_user()
+        context['posts'] = self.get_queryset()
+        return context
+
+
+class UserListView(TemplateView):  # NOQA
     template_name = 'apps/auth/user.html'
 
     def get_context_data(self, **kwargs):

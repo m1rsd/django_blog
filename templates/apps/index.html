@@ -19,7 +19,8 @@
                                     <h5>Categories</h5>
                                 </div>
                                 {% for category in categories %}
-                                    <a class="category -bar " href="{% url 'blog_category_page' %}">
+                                    <a class="category -bar "
+                                       href="{% url 'blog_category_page' %}?category={{ category.slug }}">
                                         <!--Category 1::Background Image size is 340 x 80   -->
                                         <div class="category__background"
                                              style="background-image: url({{ category.image.url }})"></div>
@@ -44,7 +45,7 @@
                                         </div>
                                         <div class="trending-post_content">
                                             <!-- Category Header -->
-                                            <h5>{{ post.title }}</h5>
+                                            <h5>{{ post.category.first.name }}</h5>
                                             <a href="{% url 'post_page'  post.slug %}">{{ post.title }}</a>
                                             <div class="info__time"><i class="far fa-clock"></i>
                                                 <p>
@@ -77,7 +78,7 @@
                                         <img src="{{ posts__category.first.image.url }}"
                                              alt="{{ posts__category.first.title }}"/>
                                     </a>
-                                    {#                                   list of posts#}
+                                    {#list of posts#}
                                     <div class="card__content">
                                         <!-- Content Category -->
                                         <h5 class="card__content-category">{{ posts__category.first.category.first.name }}</h5>

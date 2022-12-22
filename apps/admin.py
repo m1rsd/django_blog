@@ -19,7 +19,7 @@ class OriginAdmin(admin.ModelAdmin):
 
 @admin.register(Post)
 class OriginAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'categories_list', 'is_active', 'category_image', 'submit_buttons')
+    list_display = ('id', 'title', 'categories_list', 'author', 'is_active', 'category_image', 'submit_buttons')
     list_display_links = ('id', 'title')
     exclude = ('slug', 'views')
     readonly_fields = ('status',)

@@ -9,85 +9,97 @@
     <script src="{% static 'apps/user/css/bootstrap.min.css' %}"></script>
     <script src="{% static 'apps/user/js/jquery-1.11.1.min.js' %}"></script>
     <!------ Include the above in your HEAD tag ---------->
-    <div>asd</div>
-    <div>asd</div>
-    <div>asd</div>
-    <div>asd</div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
-                {% if request.user == user %}
-                    <A href="{% url 'user_update_view' request.user.id %}">Edit Profile</A>
+    {#    <div>asd</div>#}
+    {#    <div>asd</div>#}
+    {#    <div>asd</div>#}
+    {#    <div>asd</div>#}
 
-                    <A href="{% url 'logout' %}">Logout</A>
-                {% endif %}
-                <br> {# May 05,2014,03:00 pm  #}
-                <p class=" text-info">{{ user.date_joined|date:"M  d, Y ," }}{{ user.date_joined|time:"h:i  a" }}</p>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
-
-
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">{{ user.username }}</h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-3 col-lg-3 " align="center">
-                                <img alt="User Pic" src="{{ user.image.url }}" class="img-circle img-responsive"></div>
-                            <div class=" col-md-9 col-lg-9 ">
-                                <table class="table table-user-information">
-                                    <tbody>
-                                    <tr>
-                                        <td>Department:</td>
-                                        <td>{{ user.workspace }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Hire date:</td>
-                                        <td>{{ user.date_joined }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Date of Birth</td>
-                                        <td>{{ user.birthday }}</td>
-                                    </tr>
-
-                                    <tr>
-                                    <tr>
-                                        <td>Gender</td>
-                                        <td>{{ user.gender }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Home Address</td>
-                                        <td>{{ user.address }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Email</td>
-                                        <td><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
-                                    </tr>
-                                    <td>Phone Number</td>
-                                    <td>{{ user.phone }}(Landline)
-                                    </td>
-
-                                    </tr>
-
-                                    </tbody>
-                                </table>
-                                {% if request.user == user %}
-                                    <div>
-                                        <a href="{% url 'create_post' %}" class="btn btn-primary">Create Post</a>
-                                    </div>
-                                    <div>
-                                        <a href="{% url 'change_password' %}" class="btn btn-primary">Change Password</a>
-                                    </div>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-footer">
-                        <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button"
-                           class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>
+    <div id="content">
+        <div class="container">
+            <div class="blog-with-sidebar">
+                <div class="row">
+                    <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
                         {% if request.user == user %}
-                            <span class="pull-right">
+                            <A href="{% url 'user_update_view' request.user.id %}">Edit Profile</A>
+
+                            <A href="{% url 'logout' %}">Logout</A>
+                        {% endif %}
+                        <br> {# May 05,2014,03:00 pm  #}
+                        <p class=" text-info">
+                            {{ user.date_joined|date:"M  d, Y ," }}{{ user.date_joined|time:"h:i  a" }}</p>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
+
+
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">{{ user.username }}</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-3 col-lg-3 " align="center">
+                                        <img alt="User Pic" src="{{ user.image.url }}"
+                                             class="img-circle img-responsive">
+                                    </div>
+                                    <div class=" col-md-9 col-lg-9 ">
+                                        <table class="table table-user-information">
+                                            <tbody>
+                                            <tr>
+                                                <td>Department:</td>
+                                                <td>{{ user.workspace }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Hire date:</td>
+                                                <td>{{ user.date_joined }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Date of Birth</td>
+                                                <td>{{ user.birthday }}</td>
+                                            </tr>
+
+                                            <tr>
+                                            <tr>
+                                                <td>Gender</td>
+                                                <td>{{ user.gender }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Home Address</td>
+                                                <td>{{ user.address }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Email</td>
+                                                <td><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
+                                            </tr>
+                                            <td>Phone Number</td>
+                                            <td>{{ user.phone }}(Landline)
+                                            </td>
+
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+                                        {% if request.user == user %}
+                                            <div>
+                                                <a href="{% url 'create_post' %}" class="btn btn-primary">Create
+                                                    Post</a>
+                                            </div>
+                                            <div>
+                                                <a href="{% url 'change_password' %}" class="btn btn-primary">Change
+                                                    Password</a>
+                                            </div>
+                                        {% endif %}
+                                        <div>
+                                            <a href="{% url 'user_posts' user.username %}"
+                                               class="btn btn-primary">My posts</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button"
+                                   class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>
+                                {% if request.user == user %}
+                                    <span class="pull-right">
                             <a data-original-title="Edit this user" data-toggle="tooltip" type="button"
                                class="btn btn-sm btn-warning" href="{% url 'user_update_view' user.id %}"><i
                                     class="glyphicon glyphicon-edit"></i>Update</a>
@@ -95,9 +107,11 @@
                                class="btn btn-sm btn-danger" href="{% url 'user_delete_view' user.id %}"><i
                                     class="glyphicon glyphicon-remove"></i>Delete</a>
                         </span>
-                        {% endif %}
-                    </div>
+                                {% endif %}
+                            </div>
 
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
