@@ -37,8 +37,8 @@ class RegisterView(CreateView):  # NOQA
             return redirect('login')
         return super().get(request, *args, **kwargs)
 
-    # def form_invalid(self, form):
-    #     return super().form_invalid(form)
+    def form_invalid(self, form):
+        return super().form_invalid(form)
 
 
 class CustomLogoutView(LogoutView):

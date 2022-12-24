@@ -26,11 +26,6 @@ class PostDetailView(DetailView, FormView):
         contex['comments'] = Comment.objects.filter(post_id=self.get_object().id)
         return contex
 
-    def post(self, request, *args, **kwargs):
-        if "_make_pdf" in request.POST:
-            return redirect('make_pdf', self.get_object().slug)
-        return super().post(request, *args, **kwargs)
-
     def form_valid(self, form):
         _object = self.get_object()
         obj = form.save(commit=False)

@@ -13,6 +13,18 @@ import os.path
 from pathlib import Path
 import environ
 
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+sentry_sdk.init(
+    dsn="https://5d7cfa788e8243aa8c9d38c9560a120d@o4504383839338496.ingest.sentry.io/4504383842418688",
+    integrations=[
+        DjangoIntegration(),
+    ],
+    traces_sample_rate=1.0,
+    send_default_pii=True
+)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -44,6 +56,7 @@ INSTALLED_APPS = [
     'fontawesomefree',
     'crispy_forms',
     'django_crontab',
+    'qr_code',
 
 ]
 
@@ -224,5 +237,5 @@ CELERY_TIMEZONE = 'Asia/Kolkata'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 CRONJOBS = [
-    ('59 23 * * 6', 'apps/utils/view_count_reseter')
+    ('01 3 * * *', 'apps/utils/view_count_reseter')
 ]

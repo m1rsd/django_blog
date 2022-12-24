@@ -184,12 +184,9 @@
             </div>
         </div>
     </div>
-    <form action="{% url 'make_pdf' post.slug %}" method="get" name="status_action">
-        {% csrf_token %}
-        <div class="center">
-            <input class="btn -normal" type="submit" value="Make PDF" name="_make_pdf">
-        </div>
-    </form>
+    <div class="center">
+        <a href="{% url 'make_pdf' post.slug %}" class="btn btn-normal">Make PDF</a>
+    </div>
 
 {% endblock %}
 <h3>Bunday Post mavjud emas</h3>

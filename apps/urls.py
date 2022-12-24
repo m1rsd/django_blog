@@ -1,6 +1,8 @@
 from builtins import next
 
 from django.urls import path
+from django.views.decorators.csrf import csrf_exempt
+
 from apps.view.user_views import CustomLogoutView, RegisterView, UserListView, CustomLoginView, UserUpdateView, \
     UserDeleteView, UserActiveProfileView, UserChangePasswordView, ForgotPasswordFormView, ResetPasswordView, \
     UserPostListView
@@ -17,7 +19,7 @@ urlpatterns = [
     path('create-post/', CreatePostView.as_view(), name='create_post'),
     path('pdf/<str:slug>', GeneratePdf.as_view(), name='make_pdf'),
 
-    path('search', SearchView.as_view(), name='search'),
+    path('search', csrf_exempt(SearchView.as_view()), name='search'),
     path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', CustomLogoutView.as_view(), name='logout'),
     path('register/', RegisterView.as_view(), name='register_view'),

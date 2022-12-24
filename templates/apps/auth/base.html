@@ -16,8 +16,18 @@
     {% block main_content %}{% endblock %}
 </div>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
-<script src="{% static 'apps/js/beacon.js' %}"></script>
-<script src="{% static 'apps/js/awsome_phone.js' %}"></script>
+{#<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>#}
+{#<script src="{% static 'apps/js/beacon.js' %}"></script>#}
+{#<script src="{% static 'apps/js/awsome_phone.js' %}"></script>#}
+<script src="https://unpkg.com/imask"></script>
+
+<script>
+    let element = document.getElementById('phone');
+    let maskOptions = {
+        mask: '+{998}(00)000-00-00',
+        lazy: false
+    }
+    let mask = new IMask(element, maskOptions);
+</script>
 </body>
 </html>

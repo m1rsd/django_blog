@@ -79,6 +79,15 @@ class CommentForm(ModelForm):
 
 
 class RegisterForm(UserCreationForm):
+    phone = CharField(max_length=25)
+
+    def clean_phone(self):
+        phone = self.data.get('phone').replace('(', '')
+        phone = phone.replace(')', '')
+        phone = phone.replace('-', '')
+        phone = phone.replace(' ', '')
+        return phone
+
     class Meta:
         model = User
         fields = ("username", "email", "phone", "password1")

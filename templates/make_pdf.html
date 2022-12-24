@@ -1,5 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 {% load static %}
+{% load qr_code %}
 <html>
 <head>
     <title>Title</title>
@@ -45,7 +46,8 @@
 <body>
 <div class='wrapper'>
     <div class='header'>
-        <p class='title'>{{ post.title|safe }} </p>
+        <p class='title'>{{ post.title|safe }} <img  align='right' src="{{ qr
+                }}" height="100" width="100"></p>
     </div>
 
     <div>

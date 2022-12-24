@@ -2,10 +2,12 @@
 <header class="theme-default">
     <div id="search-box">
         <div class="container">
-            <form action="/" method="POST">
-                <input type="text" placeholder="Searching for news" name="search"/>
+            <form action="#" method="POST">
+                {% csrf_token %}
+                <input type="text" id="user-input" placeholder="Searching for news" name="like"/>
                 <button><i class="fas fa-arrow-right"></i></button>
             </form>
+            <ul class="list-group d-none style-2" id="replaceable-content" style="border: none"></ul>
         </div>
     </div>
     <div class="container">
@@ -45,7 +47,8 @@
                 <a class="btn btn-outline-primary" href="{% url 'register_view' %}">Sign up</a>
                 <a class="btn btn-outline-primary" href="{% url 'login' %}">Log in</a>
             {% else %}
-                <a class="btn btn-outline-primary" href="{% url 'user_view' request.user.username %}">{{ request.user.username }}</a>
+                <a class="btn btn-outline-primary"
+                   href="{% url 'user_view' request.user.username %}">{{ request.user.username }}</a>
                 <a class=" btn btn-outline-primary" href="{% url 'logout' %}">Logout</a>
             {% endif %}
         </div>

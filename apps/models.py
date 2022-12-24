@@ -125,7 +125,7 @@ class Comment(models.Model):
 
 
 class User(AbstractUser):
-    phone = CharField(max_length=15, null=True, blank=True)
+    phone = CharField(max_length=25, null=True, blank=True)
     about = TextField(null=True, blank=True)
     birthday = DateField(null=True, blank=True)
     image = ResizedImageField(null=True, blank=True, default='auth.png', upload_to='authors')
@@ -161,3 +161,18 @@ class ContactMessage(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Region(models.Model):
+    name = CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
+class District(models.Model):
+    name = CharField(max_length=255)
+    region = ForeignKey(Region, CASCADE)
+
+    def __str__(self):
+        return self.name
